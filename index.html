@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tornado Roulette 🌪️</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at center, #1a1a1a 20%, #000);
+      color: white;
+      text-align: center;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 2.3em;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      margin-bottom: 15px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      padding: 20px 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,255,255,0.3);
+      max-width: 500px;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    button {
+      background: linear-gradient(45deg, #00ffff, #0066ff);
+      border: none;
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-size: 1.2em;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 20px #00ffff;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.1em;
+      line-height: 1.8;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Tornado Roulette 🌪️</h1>
+  <div class="card">
+    <button onclick="girarRoleta()">🎲 Girar Roleta</button>
+    <div class="result" id="resultado"></div>
+  </div>
+
+  <script>
+    function girarRoleta() {
+      // Categorias com probabilidades (valores ajustáveis)
+      const categorias = [
+        { nome: "EF0", chance: 25 },
+        { nome: "EF1", chance: 25 },
+        { nome: "EF2", chance: 20 },
+        { nome: "EF3", chance: 15 },
+        { nome: "EF4", chance: 10 },
+        { nome: "EF5", chance: 5 }
+      ];
+
+      const formas = ["Cone", "Rope", "Wedge", "Stovepipe", "Drill", "Multi-vortex", "Cigar", "Cylinder"];
+      const extras = ["Rain-wrapped", "Satélite", "Noturno", "Multiple-vortex", "Debris visible", "Rope-out phase"];
+      const estados = ["Texas", "Oklahoma", "Kansas", "Nebraska", "Iowa", "Missouri", "Arkansas", "Louisiana", "Mississippi", "Alabama"];
+
+      const fatalidades = [
+        { nivel: "Nenhuma", chance: 50 },
+        { nivel: "1-5 mortes", chance: 25 },
+        { nivel: "6-20 mortes", chance: 15 },
+        { nivel: "21+ mortes", chance: 10 }
+      ];
+
+      const feridos = [
+        { nivel: "Nenhum", chance: 40 },
+        { nivel: "1-10 feridos", chance: 30 },
+        { nivel: "11-50 feridos", chance: 20 },
+        { nivel: "51+ feridos", chance: 10 }
+      ];
+
+      function sortearComChance(lista) {
+        const total = lista.reduce((s, i) => s + i.chance, 0);
+        let sorteio = Math.random() * total;
+        for (let item of lista) {
+          if (sorteio < item.chance) return item;
+          sorteio -= item.chance;
+        }
+      }
+
+      // Sorteios principais
+      const categoria = sortearComChance(categorias).nome;
+      const forma = formas[Math.floor(Math.random() * formas.length)];
+      const estado = estados[Math.floor(Math.random() * estados.length)];
+      const mostrarExtra = Math.random() < 0.5; // 50%
+      const extra = mostrarExtra ? extras[Math.floor(Math.random() * extras.length)] : "Nenhum extra";
+      const mortos = sortearComChance(fatalidades).nivel;
+      const machucados = sortearComChance(feridos
